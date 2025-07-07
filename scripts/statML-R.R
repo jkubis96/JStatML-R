@@ -205,11 +205,11 @@ test_multi_groups <- function(df,
     
     if (levene_result$`Pr(>F)`[1] < 0.05) {
       
-      info <- "Levene's test (p < 0.05): variance not equal."
+      info <- "Levene's p < 0.05: variance not equal"
       
     } else {
       
-      info <- "Levene's test (p > 0.05): variance equal."
+      info <- "Levene's p > 0.05: variance equal"
       
     }
     
@@ -272,7 +272,7 @@ test_multi_groups <- function(df,
     
     if (levene_result$`Pr(>F)`[1] <= 0.05) {
       
-      info <- "Levene's test (p < 0.05): variance not equal."
+      info <- "Levene's p < 0.05: variance not equal"
       
       formula <- as.formula(paste0(sym(value_column), " ~ ", sym(grouping_column)))
       
@@ -316,13 +316,13 @@ test_multi_groups <- function(df,
       statistic <- new("statistic", 
                        test = "Welch's ANOVA",
                        leven_var_test = list('levene_results' = levene_result, 'response' = info),
-                       posthoc_test = "Welch's T-test",
+                       posthoc_test = "Welch's t-test",
                        test_data = as.list(aov_results),
                        posthoc_data = posthc_results)
     
     } else {
       
-      info <- "Levene's test (p > 0.05): variance equal."
+      info <- "Levene's p > 0.05: variance equal"
       formula <- as.formula(paste0(sym(value_column), " ~ ", sym(grouping_column)))
       
       aov <- aov(formula, data = df)
@@ -366,7 +366,7 @@ test_multi_groups <- function(df,
       statistic <- new("statistic", 
                        test = 'ANOVA',
                        leven_var_test = list('levene_results' = levene_result, 'response' = info),
-                       posthoc_test = 'T-test',
+                       posthoc_test = 't-test',
                        test_data = as.list(aov_results),
                        posthoc_data = posthc_results)
       
@@ -441,7 +441,7 @@ test_two_groups <- function(df, value_column, grouping_column, parametric = TRUE
    
     
 
-    wcox <- wilcox.test(df[[value_column]][df[[grouping_column]] %in% unique(df[[grouping_column]])[1]], df[[value_column]][df[[grouping_column]] %in% unique(df[[grouping_column]])[2]], alternative = 'two.side', paired)
+    wcox <- wilcox.test(df[[value_column]][df[[grouping_column]] %in% unique(df[[grouping_column]])[1]], df[[value_column]][df[[grouping_column]] %in% unique(df[[grouping_column]])[2]], alternative = 'two.sided', paired)
     
    
     
@@ -463,13 +463,13 @@ test_two_groups <- function(df, value_column, grouping_column, parametric = TRUE
   } else if (parametric == TRUE) {
     
     
-    tt <- t.test(df[[value_column]][df[[grouping_column]] %in% unique(df[[grouping_column]])[1]], df[[value_column]][df[[grouping_column]] %in% unique(df[[grouping_column]])[2]], alternative = 'two.side', paired, var.equal = TRUE)
+    tt <- t.test(df[[value_column]][df[[grouping_column]] %in% unique(df[[grouping_column]])[1]], df[[value_column]][df[[grouping_column]] %in% unique(df[[grouping_column]])[2]], alternative = 'two.sided', paired, var.equal = TRUE)
     
     
     
     
     statistic <- new("statistic", 
-                     test = "T-test",
+                     test = "t-test",
                      p.val = tt$p.value,
                      statistic = tt$statistic,
                      paired = paired
@@ -734,7 +734,7 @@ two_groups_analysis <- function(value_column, grouping_column, data, bar_queue =
                   y_position = y_pos,
                   map_signif_level = FALSE, textsize = 4) +
       coord_cartesian(ylim = c(0, round(max(y_pos)))) +
-      annotate("text", x = -Inf, y = Inf, label =  paste(' ', results@test, 'p.val =', results@p.val), 
+      annotate("text", x = -Inf, y = Inf, label =  paste(' ', results@test, 'p =', results@p.val), 
                hjust = 0, vjust = 1.25, size = 2.8) +
       theme_void()
       
@@ -786,8 +786,8 @@ two_groups_analysis <- function(value_column, grouping_column, data, bar_queue =
     
     
     results_text <- paste0('Group test: ', results@test,"\n")
-    results_text <- paste0(results_text,'P-val: ',results@p.val,"\n")
-    results_text <- paste0(results_text,'Statistic: ', results@statistic,"\n")
+    results_text <- paste0(results_text,'p-val: ',results@p.val,"\n")
+    results_text <- paste0(results_text,'statistic: ', results@statistic,"\n")
     
 
 
@@ -1154,9 +1154,9 @@ multi_groups_analysis <- function(value_column,
                   map_signif_level = FALSE, textsize = 4) +
       coord_cartesian(ylim = c(0, round(max(y_pos) + fc + 5))) +
       annotate("text", x = -Inf, y = Inf, label = paste(' ', results@leven_var_test$response,
-                                                        ' | ' ,results@test, 'p.val =', 
+                                                        ' | ' ,results@test, 'p =', 
                                                         results@test_data$p.value, ' | ', 
-                                                        'Post-hoc:',results@posthoc_test, ' | ', 
+                                                        ' post-hoc:',results@posthoc_test, ' | ', 
                                                         ' p.adj:', results@posthoc_data$adjustment), 
                                                         hjust = 0, vjust = 1.25, size = 2.8) +
       theme_void()
@@ -1185,7 +1185,7 @@ multi_groups_analysis <- function(value_column,
       bar_plot = bar_plot +
         coord_cartesian(ylim = c(0, max(max_y) * 1.08)) +
         annotate("text", x = -Inf, y = Inf, label = paste(' ',results@leven_var_test$response,
-                                                          ' | ' ,results@test, 'p.val =', 
+                                                          ' | ' ,results@test, 'p =', 
                                                           results@test_data$p.value), 
                  hjust = 0, vjust = 1.25, size = 2.8) 
 
@@ -1201,7 +1201,7 @@ multi_groups_analysis <- function(value_column,
       box_plot = box_plot +
         coord_cartesian(ylim = c(min_y, max(max_y)* 1.08)) +
         annotate("text", x = -Inf, y = Inf, label = paste(' ', results@leven_var_test$response,
-                                                          ' | ' ,results@test, 'p.val =', 
+                                                          ' | ' ,results@test, 'p =', 
                                                           results@test_data$p.value), 
                  hjust = 0, vjust = 1.25, size = 2.8) 
       
@@ -1209,7 +1209,7 @@ multi_groups_analysis <- function(value_column,
       violin_plot = violin_plot +
         # coord_cartesian(ylim = c(min_y, max(max_y)* 1.08)) +
         annotate("text", x = -Inf, y = Inf, label = paste(' ', results@leven_var_test$response,
-                                                          ' | ' ,results@test, 'p.val =', 
+                                                          ' | ' ,results@test, 'p =', 
                                                           results@test_data$p.value), 
                  hjust = 0, vjust = 1.20, size = 2.8) 
       
@@ -1401,7 +1401,12 @@ multi_var_groups_analysis <- function(data,
     
     aov_result <- aov(formula, data = data)
     summary_groups <- summary(aov_result)
-    p_value <- summary_groups[[1]]$`Pr(>F)`[1]
+    p_value_1 <- summary_groups[[1]]$`Pr(>F)`[1]
+    p_nam_1 <- trimws(rownames(summary_groups[[1]])[1])
+    p_value_2 <- summary_groups[[1]]$`Pr(>F)`[2]
+    p_nam_2 <- trimws(rownames(summary_groups[[1]])[2])
+    p_value_3 <- summary_groups[[1]]$`Pr(>F)`[3]
+    p_nam_3 <- trimws(rownames(summary_groups[[1]])[3])
     
     test_name = 'ANOVA'
     
@@ -1411,15 +1416,39 @@ multi_var_groups_analysis <- function(data,
     safe_anova <- tryCatch({
       summary_art <- art(formula, data = data)
       summary_groups <- anova(summary_art)
-      p_value <- summary_groups$`Pr(>F)`[1]
+      p_value_1 <- summary_groups$`Pr(>F)`[1]
+      p_nam_1 <- summary_groups[[1]][1]
+      p_value_2 <- summary_groups$`Pr(>F)`[2]
+      p_nam_2 <- summary_groups[[1]][2]
+      p_value_3 <- summary_groups$`Pr(>F)`[3]
+      p_nam_3 <- summary_groups[[1]][3]
+      
       statistic <- summary_groups$F[1]
-      list(p_value = p_value, statistic = statistic)
+      list(p_nam_1 = p_nam_1, 
+           p_value_1 = p_value_1,
+           p_nam_2 = p_nam_2,
+           p_value_2 = p_value_2,
+           p_nam_3 = p_nam_3,
+           p_value_3 = p_value_3,
+           statistic = statistic)
     }, error = function(e) {
-      list(p_value = 1, statistic = NaN)
+      list(p_nam_1 = interval_col, 
+           p_value_1 = 1,
+           p_nam_2 = group_col,
+           p_value_2 = 1,
+           p_nam_3 = paste0(interval_col, ':', group_col),
+           p_value_3 = 1,
+           statistic = NaN)
     })
     
-    p_value <- safe_anova$p_value
-    summary_groups <- safe_anova$statistic
+    summary_groups <- safe_anova
+    
+    p_value_1 <- summary_groups$p_value_1
+    p_nam_1 <- summary_groups$p_nam_1
+    p_value_2 <- summary_groups$p_value_2
+    p_nam_2 <- summary_groups$p_nam_2
+    p_value_3 <- summary_groups$p_value_3
+    p_nam_3 <- summary_groups$p_nam_3
    
     # Aligned Rank Transform
     test_name = 'ART-ANOVA'
@@ -1428,106 +1457,150 @@ multi_var_groups_analysis <- function(data,
   }
   
   
+    p_value_1 <- case_when(
+      is.na(p_value_1)    ~ "ns",
+      p_value_1 < 0.001   ~ "***",
+      p_value_1 < 0.01    ~ "**",
+      p_value_1 < 0.05    ~ "*",
+      TRUE                ~ "ns"
+    )
+    
+    
+    p_value_2 <- case_when(
+      is.na(p_value_2)    ~ "ns",
+      p_value_2 < 0.001   ~ "***",
+      p_value_2 < 0.01    ~ "**",
+      p_value_2 < 0.05    ~ "*",
+      TRUE                ~ "ns"
+    )
+    
+    
+    p_value_3 <- case_when(
+      is.na(p_value_3)    ~ "ns",
+      p_value_3 < 0.001   ~ "***",
+      p_value_3 < 0.01    ~ "**",
+      p_value_3 < 0.05    ~ "*",
+      TRUE                ~ "ns"
+    )
+    
+  
   
   
   # intervals
   
-  
-  run_test_for_interval <- function(data_slice, interval_value, parametric, adj, paired) {
-    n_groups <- data_slice %>% pull(!!sym(group_col)) %>% unique() %>% length()
     
-    test_type <- NA
-    test_stat <- NA
-    p_value <- NA
-    
-    if (parametric) {
-      if (n_groups == 2) {
-        test_result <- tryCatch(
-          t.test(reformulate(group_col, response = stat_col), data = data_slice, alternative = 'two.side', paired, var.equal = TRUE),
-          error = function(e) return(NULL)
-        )
-        if (!is.null(test_result)) {
-          test_type <- "t-test"
-          test_stat <- test_result$statistic
-          p_value <- test_result$p.value
-        } else {
-          test_type <- "t-test"
-          test_stat <- NaN
-          p_value <- 1
-        }
-      } else if (n_groups > 2) {
-        formula <- reformulate(group_col, response = stat_col)
-        aov_result <- tryCatch(
-          aov(formula, data = data_slice),
-          error = function(e) return(NULL)
-        )
-        if (!is.null(aov_result)) {
-          aov_summary <- summary(aov_result)
-          test_type <- "ANOVA"
-          test_stat <- aov_summary[[1]]$`F value`[1]
-          p_value <- aov_summary[[1]]$`Pr(>F)`[1]
-        } else {
-          test_type <- "ANOVA"
-          test_stat <- NaN
-          p_value <- 1
-        }
-      }
-    } else {
-      if (n_groups == 2) {
-        test_result <- tryCatch(
-          wilcox.test(reformulate(group_col, response = stat_col), data = data_slice, alternative = 'two.side', paired),
-          error = function(e) return(NULL)
-        )
-        if (!is.null(test_result)) {
-          if (paired) {
-            test_type <- "Wilcoxon"
-            
-          } else if (paired == FALSE) {
-            test_type <- "Mann-Whitney U"
-            
+    run_test_for_interval <- function(data_slice, interval_value, parametric, adj, paired) {
+      n_groups <- data_slice %>% pull(!!sym(group_col)) %>% unique() %>% length()
+      
+      test_type <- NA
+      test_stat <- NA
+      p_value <- NA
+      
+      group_vals <- unique(data_slice[[group_col]])
+      
+      # parametric test
+      if (parametric) {
+        if (n_groups == 2) {
+          test_result <- tryCatch({
+            if (paired) {
+              
+              # paired data
+              x <- data_slice %>% filter(!!sym(group_col) == group_vals[1]) %>% pull(!!sym(stat_col))
+              y <- data_slice %>% filter(!!sym(group_col) == group_vals[2]) %>% pull(!!sym(stat_col))
+              
+              if (length(x) != length(y)) stop("Lengths of x and y must be equal for a paired test.")
+              
+              t.test(x, y, alternative = "two.sided", paired = TRUE)
+              
+            } else {
+              
+              x <- data_slice %>% filter(!!sym(group_col) == group_vals[1]) %>% pull(!!sym(stat_col))
+              y <- data_slice %>% filter(!!sym(group_col) == group_vals[2]) %>% pull(!!sym(stat_col))
+              
+              t.test(x, y, alternative = "two.sided", paired = FALSE, var.equal = TRUE)
+            }
+          }, error = function(e) return(NULL))
+          
+          test_type <- if (paired) "Paired t-test" else "t-test"
+          if (!is.null(test_result)) {
+            test_stat <- test_result$statistic
+            p_value <- test_result$p.value
+          } else {
+            test_stat <- NaN
+            p_value <- 1
           }
           
-          test_stat <- test_result$statistic
-          p_value <- test_result$p.value
-        } else {
-          
-          if (paired) {
-            test_type <- "Wilcoxon"
-            
-          } else if (paired == FALSE) {
-            test_type <- "Mann-Whitney U"
-            
-          }         
-          
-          test_stat <- NaN
-          p_value <- 1
+        } else if (n_groups > 2) {
+          formula <- reformulate(group_col, response = stat_col)
+          aov_result <- tryCatch(
+            aov(formula, data = data_slice),
+            error = function(e) return(NULL)
+          )
+          test_type <- "ANOVA"
+          if (!is.null(aov_result)) {
+            aov_summary <- summary(aov_result)
+            test_stat <- aov_summary[[1]]$`F value`[1]
+            p_value <- aov_summary[[1]]$`Pr(>F)`[1]
+          } else {
+            test_stat <- NaN
+            p_value <- 1
+          }
         }
-      } else if (n_groups > 2) {
-        formula <- reformulate(group_col, response = stat_col)
-        kruskal_result <- tryCatch(
-          kruskal.test(formula, data = data_slice),
-          error = function(e) return(NULL)
-        )
-        if (!is.null(kruskal_result)) {
+        
+      } else {
+        if (n_groups == 2) {
+          test_result <- tryCatch({
+            if (paired) {
+              x <- data_slice %>% filter(!!sym(group_col) == group_vals[1]) %>% pull(!!sym(stat_col))
+              y <- data_slice %>% filter(!!sym(group_col) == group_vals[2]) %>% pull(!!sym(stat_col))
+              
+              if (length(x) != length(y)) stop("Lengths of x and y must be equal for a paired test.")
+              
+              wilcox.test(x, y, alternative = "two.sided", paired = TRUE)
+            } else {
+              
+              x <- data_slice %>% filter(!!sym(group_col) == group_vals[1]) %>% pull(!!sym(stat_col))
+              y <- data_slice %>% filter(!!sym(group_col) == group_vals[2]) %>% pull(!!sym(stat_col))
+              
+              wilcox.test(x, y, alternative = "two.sided", paired = FALSE)
+            }
+          }, error = function(e) return(NULL))
+          
+          test_type <- if (paired) "Wilcoxon signed-rank" else "Mann-Whitney U"
+          if (!is.null(test_result)) {
+            test_stat <- test_result$statistic
+            p_value <- test_result$p.value
+          } else {
+            test_stat <- NaN
+            p_value <- 1
+          }
+          
+        } else if (n_groups > 2) {
+          formula <- reformulate(group_col, response = stat_col)
+          kruskal_result <- tryCatch(
+            kruskal.test(formula, data = data_slice),
+            error = function(e) return(NULL)
+          )
           test_type <- "Kruskal-Wallis"
-          test_stat <- kruskal_result$statistic
-          p_value <- kruskal_result$p.value
-        } else {
-          test_type <- "Kruskal-Wallis"
-          test_stat <- NaN
-          p_value <- 1
+          if (!is.null(kruskal_result)) {
+            test_stat <- kruskal_result$statistic
+            p_value <- kruskal_result$p.value
+          } else {
+            test_stat <- NaN
+            p_value <- 1
+          }
         }
       }
+      
+      return(tibble(
+        interval = interval_value,
+        test_type = test_type,
+        test_stat = test_stat,
+        p_value_raw = p_value,
+        p_adjust_method = ifelse(is.na(adj), "none", adj)
+      ))
     }
-    
-    return(tibble(
-      interval = interval_value,
-      test_type = test_type,
-      test_stat = test_stat,
-      p_value_raw = p_value,
-      p_adjust_method = ifelse(is.na(adj), "none", adj)
-    ))
-  }
+  
   
   
   
@@ -1590,7 +1663,7 @@ multi_var_groups_analysis <- function(data,
                     width = 0.2, position = position_dodge(width = 0.3)) +
       theme_minimal() +
       labs(
-        x = NULL,
+        x = interval_col,
         y = stat_col
       ) +
       theme(
@@ -1607,16 +1680,21 @@ multi_var_groups_analysis <- function(data,
         inherit.aes = FALSE
       ) +
       
-      annotate("text",
+    
+        annotate("text",
                x = -Inf,  
                y = max_points * (1+(tx_pos)), 
-               label = paste(' ', test_name, 'p.val =', 
-                             p_value, ' | ', 
-                             'Post-hoc:', result_df$test_type[1], ' | ', 
-                             'p.adj:', result_df$p_adjust_method[1]), 
+               label = paste0(' ', test_name, ': ', 
+                               p_nam_1, ' p = ', p_value_1,
+                              ';  ',p_nam_2, ' p = ', p_value_2,
+                              ';  ',p_nam_3, ' p = ', p_value_3,'  |  ', 
+                              'post-hoc: ', result_df$test_type[1], '  |  ', 
+                              'p.adj: ', result_df$p_adjust_method[1]), 
                hjust = 0,
                vjust = 0,  
                size = 2.8)
+    
+    
     
   } else {
     
@@ -1629,7 +1707,7 @@ multi_var_groups_analysis <- function(data,
                     width = 0.2, position = position_dodge(width = 0.3)) +
       theme_minimal() +
       labs(
-        x = NULL,
+        x = interval_col,
         y = stat_col
       ) +
       theme(
@@ -1649,13 +1727,16 @@ multi_var_groups_analysis <- function(data,
       annotate("text",
                x = -Inf,  
                y = max_points * (1+(tx_pos)), 
-               label = paste(' ', test_name, 'p.val =', 
-                             p_value, ' | ', 
-                             'post-hoc:', result_df$test_type[1], ' | ', 
-                             'p.adj:', result_df$p_adjust_method[1]), 
+               label = paste0('  ', test_name, ': ', 
+                               p_nam_1, ' p = ', p_value_1,
+                              ';  ',p_nam_2, ' p = ', p_value_2,
+                              ';  ',p_nam_3, ' p = ', p_value_3,'  |  ', 
+                              'post-hoc: ', result_df$test_type[1], '  |  ', 
+                              'p.adj: ', result_df$p_adjust_method[1]), 
                hjust = 0,
                vjust = 0,  
                size = 2.8)
+    
     
     
     
