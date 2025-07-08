@@ -134,7 +134,7 @@ results <- multi_var_groups_analysis(data = df,
                                     tx_pos = 0.04)
 
 results@plot
-ggsave('../img/box_plot_multi_var_group_analysis.jpg', results@plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/line_plot_multi_var_group_analysis.jpg', results@plot, dpi = 300, width = 10, height = 6)
 
 results@statistic_group
 results@test_name
@@ -173,7 +173,7 @@ results <- multi_var_groups_analysis(data = df,
                                      tx_pos = 0.04)
 
 results@plot
-ggsave('../img/box_plot_two_var_group_analysis.jpg', results@plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/line_plot_two_var_group_analysis.jpg', results@plot, dpi = 300, width = 10, height = 6)
 
 results@statistic_group
 results@test_name
