@@ -48,13 +48,13 @@ result <- multi_groups_analysis(value_column = 'value',
           )
 
 result@bar_plot 
-ggsave('../img/bar_plot_mutli_group_analysis.jpg', result@bar_plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/bar_plot_mutli_group_analysis.jpg', result@bar_plot, dpi = 300, width = 8, height = 4)
 
 result@violin_plot 
-ggsave('../img/violin_plot_mutli_group_analysis.jpg', result@violin_plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/violin_plot_mutli_group_analysis.jpg', result@violin_plot, dpi = 300, width = 8, height = 4)
 
 result@box_plot 
-ggsave('../img/box_plot_mutli_group_analysis.jpg', result@box_plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/box_plot_mutli_group_analysis.jpg', result@box_plot, dpi = 300, width = 8, height = 4)
 
 result@statistic_tests 
 result@statistic_data 
@@ -97,13 +97,13 @@ result <- two_groups_analysis(value_column = "value",
                               brew_colors = 'Dark2')
 
 result@bar_plot 
-ggsave('../img/bar_plot_two_group_analysis.jpg', result@bar_plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/bar_plot_two_group_analysis.jpg', result@bar_plot, dpi = 300, width = 8, height = 4)
 
 result@violin_plot 
-ggsave('../img/violin_plot_two_group_analysis.jpg', result@violin_plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/violin_plot_two_group_analysis.jpg', result@violin_plot, dpi = 300, width = 8, height = 4)
 
 result@box_plot 
-ggsave('../img/box_plot_two_group_analysis.jpg', result@box_plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/box_plot_two_group_analysis.jpg', result@box_plot, dpi = 300, width = 8, height = 4)
 
 result@statistic_tests 
 result@statistic_data 
@@ -134,7 +134,7 @@ results <- multi_var_groups_analysis(data = df,
                                     tx_pos = 0.04)
 
 results@plot
-ggsave('../img/line_plot_multi_var_group_analysis.jpg', results@plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/line_plot_multi_var_group_analysis.jpg', results@plot, dpi = 300, width = 8, height = 4)
 
 results@statistic_group
 results@test_name
@@ -173,7 +173,7 @@ results <- multi_var_groups_analysis(data = df,
                                      tx_pos = 0.04)
 
 results@plot
-ggsave('../img/line_plot_two_var_group_analysis.jpg', results@plot, dpi = 300, width = 10, height = 6)
+ggsave('../img/line_plot_two_var_group_analysis.jpg', results@plot, dpi = 300, width = 8, height = 4)
 
 results@statistic_group
 results@test_name

@@ -8,7 +8,7 @@ Authors@R: c(
            role = c("aut", "cre")
          )
     )
-Author: Jakub Kubiś - JBioSystem; Laboratory of Single Cell Analyses, Institute of Bioorganic Chemistry, PAS
+Author: Jakub Kubiś - JBioSystem; Institute of Bioorganic Chemistry, PAS
 Maintainer: JBioSystem <jbiosystem@gmail.com>
 Description: JStatML-R is an R-based tool designed to facilitate fast, automated, and user-friendly group statistical analysis. It enables researchers to easily compare groups using statistical tests such as t-tests, ANOVA, and non-parametric alternatives. The package provides visualization options including bar plots, boxplots, and scatter plots. It can automatically generate reports with p-values, test statistics, and sample sizes. JStatML-R supports data input from CSV and Excel files, and allows analysis of multiple variables and groups simultaneously. The tool is ideal for biologists, clinicians, and others analyzing experimental or clinical datasets. Thanks to its open-source structure, JStatML-R can be customized to meet specific research needs.
 License: GPL-3
