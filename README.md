@@ -42,14 +42,13 @@ JStatML-R is ideal for biologists, clinicians, and anyone analyzing experimental
 
 ```
 source("https://raw.githubusercontent.com/jkubis96/JStatML-R/main/scripts/statML-R.R")
-
 ```
 
 <br />
 
 #### Documentation
 
-* [JStatML-R ](https://jkubis96.github.io/CSSG/)
+* [JStatML-R](https://jkubis96.github.io/JStatML-R/)
 
 <br />
 
@@ -283,7 +282,7 @@ results@avg_FC_results
 
 
 <p align="center">
-<img  src="img/line_plot_multi_var_group_analysis.jpg.jpg" alt="drawing" width="500" />
+<img  src="img/line_plot_multi_var_group_analysis.jpg" alt="drawing" width="500" />
 </p>
 
 
@@ -336,7 +335,7 @@ results@avg_FC_results
 
 
 <p align="center">
-<img  src="img/line_plot_two_var_group_analysis.jpg.jpg" alt="drawing" width="500" />
+<img  src="img/line_plot_two_var_group_analysis.jpg" alt="drawing" width="500" />
 </p>
 
 
