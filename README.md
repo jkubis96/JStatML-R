@@ -124,7 +124,7 @@ result@avg_FC_results
 
 
 <p align="center">
-<img  src="img/bar_plot_mutli_group_analysis.jpg" alt="drawing" width="500" />
+<img  src="img/bar_plot_mutli_group_analysis.jpg" alt="drawing" width="650" />
 </p>
 
 
@@ -137,7 +137,7 @@ result@avg_FC_results
 
 
 <p align="center">
-<img  src="img/box_plot_mutli_group_analysis.jpg" alt="drawing" width="500" />
+<img  src="img/box_plot_mutli_group_analysis.jpg" alt="drawing" width="650" />
 </p>
 
 
@@ -150,7 +150,7 @@ result@avg_FC_results
 
 
 <p align="center">
-<img  src="img/violin_plot_mutli_group_analysis.jpg" alt="drawing" width="500" />
+<img  src="img/violin_plot_mutli_group_analysis.jpg" alt="drawing" width="650" />
 </p>
 
 
@@ -212,7 +212,7 @@ result@avg_FC_results
 
 
 <p align="center">
-<img  src="img/bar_plot_two_group_analysis.jpg" alt="drawing" width="500" />
+<img  src="img/bar_plot_two_group_analysis.jpg" alt="drawing" width="650" />
 </p>
 
 
@@ -225,7 +225,7 @@ result@avg_FC_results
 
 
 <p align="center">
-<img  src="img/box_plot_two_group_analysis.jpg" alt="drawing" width="500" />
+<img  src="img/box_plot_two_group_analysis.jpg" alt="drawing" width="650" />
 </p>
 
 
@@ -238,7 +238,7 @@ result@avg_FC_results
 
 
 <p align="center">
-<img  src="img/violin_plot_two_group_analysis.jpg" alt="drawing" width="500" />
+<img  src="img/violin_plot_two_group_analysis.jpg" alt="drawing" width="650" />
 </p>
 
 
@@ -282,7 +282,7 @@ results@avg_FC_results
 
 
 <p align="center">
-<img  src="img/line_plot_multi_var_group_analysis.jpg" alt="drawing" width="500" />
+<img  src="img/line_plot_multi_var_group_analysis.jpg" alt="drawing" width="650" />
 </p>
 
 
@@ -335,7 +335,7 @@ results@avg_FC_results
 
 
 <p align="center">
-<img  src="img/line_plot_two_var_group_analysis.jpg" alt="drawing" width="500" />
+<img  src="img/line_plot_two_var_group_analysis.jpg" alt="drawing" width="650" />
 </p>
 
 
