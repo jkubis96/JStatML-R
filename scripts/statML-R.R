@@ -1505,8 +1505,8 @@ multi_var_groups_analysis <- function(data,
             if (paired) {
               
               # paired data
-              x <- data_slice %>% filter(!!sym(group_col) == group_vals[1]) %>% pull(!!sym(stat_col))
-              y <- data_slice %>% filter(!!sym(group_col) == group_vals[2]) %>% pull(!!sym(stat_col))
+              x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
+              y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
               
               if (length(x) != length(y)) stop("Lengths of x and y must be equal for a paired test.")
               
@@ -1514,8 +1514,8 @@ multi_var_groups_analysis <- function(data,
               
             } else {
               
-              x <- data_slice %>% filter(!!sym(group_col) == group_vals[1]) %>% pull(!!sym(stat_col))
-              y <- data_slice %>% filter(!!sym(group_col) == group_vals[2]) %>% pull(!!sym(stat_col))
+              x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
+              y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
               
               t.test(x, y, alternative = "two.sided", paired = FALSE, var.equal = TRUE)
             }
@@ -1551,16 +1551,16 @@ multi_var_groups_analysis <- function(data,
         if (n_groups == 2) {
           test_result <- tryCatch({
             if (paired) {
-              x <- data_slice %>% filter(!!sym(group_col) == group_vals[1]) %>% pull(!!sym(stat_col))
-              y <- data_slice %>% filter(!!sym(group_col) == group_vals[2]) %>% pull(!!sym(stat_col))
+              x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
+              y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
               
               if (length(x) != length(y)) stop("Lengths of x and y must be equal for a paired test.")
               
               wilcox.test(x, y, alternative = "two.sided", paired = TRUE)
             } else {
               
-              x <- data_slice %>% filter(!!sym(group_col) == group_vals[1]) %>% pull(!!sym(stat_col))
-              y <- data_slice %>% filter(!!sym(group_col) == group_vals[2]) %>% pull(!!sym(stat_col))
+              x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
+              y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
               
               wilcox.test(x, y, alternative = "two.sided", paired = FALSE)
             }
@@ -1657,7 +1657,7 @@ multi_var_groups_analysis <- function(data,
     max_points <- max(summary_data_signif$mean + summary_data_signif$sd)*(1+(tx_pos/2))
     
     plot <- ggplot(summary_data_signif, aes(x = !!sym(interval_col), y = mean, color = !!sym(group_col), group = !!sym(group_col))) +
-      geom_point(position = position_dodge(width = 0.3), linewidth = 3) +
+      geom_point(position = position_dodge(width = 0.3), size = 3) +
       geom_line(position = position_dodge(width = 0.3), linewidth = 1) +
       geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd),
                     width = 0.2, position = position_dodge(width = 0.3)) +
@@ -1701,7 +1701,7 @@ multi_var_groups_analysis <- function(data,
     max_points <- max(summary_data_signif$mean + summary_data_signif$sem)*(1+(tx_pos/2))
     
     plot <- ggplot(summary_data_signif, aes(x = !!sym(interval_col), y = mean, color = !!sym(group_col), group = !!sym(group_col))) +
-      geom_point(position = position_dodge(width = 0.3), linewidth = 3) +
+      geom_point(position = position_dodge(width = 0.3), size = 3) +
       geom_line(position = position_dodge(width = 0.3), linewidth = 1) +
       geom_errorbar(aes(ymin = mean - sem, ymax = mean + sem),
                     width = 0.2, position = position_dodge(width = 0.3)) +
