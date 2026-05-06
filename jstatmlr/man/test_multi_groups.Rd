@@ -9,7 +9,6 @@ test_multi_groups(
   value_column,
   grouping_column,
   parametric = TRUE,
-  paired = FALSE,
   adjustment.method = "bonferroni"
 )
 }
@@ -22,8 +21,6 @@ test_multi_groups(
 
 \item{parametric}{Logical. If \code{TRUE}, parametric tests (ANOVA or Welch’s ANOVA) are used.
 If \code{FALSE}, the Kruskal-Wallis test is used.}
-
-\item{paired}{Logical. Indicates whether post-hoc comparisons should be paired (relevant for non-parametric tests).}
 
 \item{adjustment.method}{A string indicating the method for p-value adjustment (currently stored in the output
 but not applied during post-hoc tests; default is \code{"bonferroni"}).}
@@ -45,7 +42,7 @@ It includes Levene's test for variance homogeneity, followed by one of: ANOVA, W
 or Kruskal-Wallis test. Post-hoc pairwise comparisons are also performed without p-value adjustment.
 }
 \details{
-- If \code{parametric = FALSE}, Kruskal-Wallis and pairwise Wilcoxon tests are used.
+- If \code{parametric = FALSE}, Kruskal-Wallis and pairwise Wilcoxon tests are used.  
 - If \code{parametric = TRUE}, Levene’s test is used to choose between:
   \itemize{
     \item \strong{Equal variances} → classical ANOVA and pairwise t-tests,

@@ -55,7 +55,6 @@ or Kruskal-Wallis test. Post-hoc pairwise comparisons are also performed without
 <span>  <span class="va">value_column</span>,</span>
 <span>  <span class="va">grouping_column</span>,</span>
 <span>  parametric <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  paired <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  adjustment.method <span class="op">=</span> <span class="st">"bonferroni"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -79,10 +78,6 @@ or Kruskal-Wallis test. Post-hoc pairwise comparisons are also performed without
 <dt id="arg-parametric">parametric<a class="anchor" aria-label="anchor" href="#arg-parametric"></a></dt>
 <dd><p>Logical. If <code>TRUE</code>, parametric tests (ANOVA or Welch’s ANOVA) are used.
 If <code>FALSE</code>, the Kruskal-Wallis test is used.</p></dd>
-
-
-<dt id="arg-paired">paired<a class="anchor" aria-label="anchor" href="#arg-paired"></a></dt>
-<dd><p>Logical. Indicates whether post-hoc comparisons should be paired (relevant for non-parametric tests).</p></dd>
 
 
 <dt id="arg-adjustment-method">adjustment.method<a class="anchor" aria-label="anchor" href="#arg-adjustment-method"></a></dt>

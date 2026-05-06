@@ -2,7 +2,7 @@
 % Please edit documentation in R/statML-R.R
 \name{multi_var_groups_analysis}
 \alias{multi_var_groups_analysis}
-\title{Multi-variable Groups Analysis with Statistical Tests and Plotting}
+\title{Two-way Factorial Analysis with Simple Main Effects and Visualization}
 \usage{
 multi_var_groups_analysis(
   data,
@@ -10,7 +10,6 @@ multi_var_groups_analysis(
   interval_col,
   group_col,
   parametric = TRUE,
-  paired = FALSE,
   adj = NA,
   error = "sem",
   tx_pos = 0.02
@@ -26,8 +25,6 @@ multi_var_groups_analysis(
 \item{group_col}{A string specifying the name of the grouping variable column (factor or character).}
 
 \item{parametric}{Logical; if TRUE, parametric tests (ANOVA, t-test) are used, otherwise non-parametric tests (ART-ANOVA, Wilcoxon/Kruskal-Wallis) are applied. Default is TRUE.}
-
-\item{paired}{Logical; whether to perform paired tests (currently not implemented in detail). Default is FALSE.}
 
 \item{adj}{Character or NA; method for p-value adjustment in post-hoc tests ("bf" for Bonferroni, "bh" for Benjamini-Hochberg, or NA for none). Default is NA.}
 
@@ -45,10 +42,17 @@ An S4 object of class \code{multi_var_groups_analysis} containing:
 \item{avg_FC_results}{Data frame with average fold change results between groups for each interval.}
 }
 \description{
-This function performs a statistical analysis (ANOVA or non-parametric alternatives)
-on a given dataset grouped by specified variables, runs post-hoc tests for each interval,
-adjusts p-values, and generates a ggplot2 plot showing means with error bars and significance labels.
-It also calculates average fold changes between groups.
+This function performs a comprehensive two-way statistical analysis (e.g., Two-Way ANOVA or non-parametric ART-ANOVA) 
+to evaluate the effects of a primary grouping variable and a secondary factor (such as time or condition) 
+on a numeric response variable. Following the main test, it conducts simple main effects analysis by running 
+separate omnibus tests across the groups for each specific interval. Depending on the `parametric` parameter, 
+it uses either One-Way ANOVA or t-test for parametric data, or Kruskal-Wallis or Mann-Whitney U tests for 
+non-parametric data. The p-values from these interval-specific omnibus tests are then adjusted for multiple 
+comparisons across the tested intervals. The function outputs a publication-ready ggplot2 chart displaying 
+group means, error bars, and the adjusted significance labels for each interval.
+}
+\details{
+Two-way Factorial Analysis with Simple Main Effects and Visualization
 }
 \examples{
 # Example usage

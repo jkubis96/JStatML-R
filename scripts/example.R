@@ -1,4 +1,5 @@
 source("https://raw.githubusercontent.com/jkubis96/JStatML-R/main/scripts/statML-R.R")
+# source("statML-R.R")
 
 
 
@@ -34,13 +35,12 @@ result <- multi_groups_analysis(value_column = 'value',
                                 y_label = 'Value', 
                                 size = 1, 
                                 parametric = TRUE, 
-                                paired = FALSE, 
                                 include_ns = FALSE, 
                                 bars = 'sem', 
                                 bars_size = 1,
                                 bar_size = 0.5,
                                 stat_plot_ratio = 0.4,
-                                stat_hight = 0.6,
+                                stat_hight = 0.7,
                                 adjustment.method = 'bonferroni', 
                                 y_break = NA, 
                                 brew_colors = 'Dark2'
@@ -48,13 +48,13 @@ result <- multi_groups_analysis(value_column = 'value',
           )
 
 result@bar_plot 
-ggsave('../img/bar_plot_mutli_group_analysis.jpg', result@bar_plot, dpi = 300, width = 8, height = 4)
+ggsave('../img/bar_plot_mutli_group_analysis.jpg', result@bar_plot, dpi = 300, width = 8, height = 6)
 
 result@violin_plot 
-ggsave('../img/violin_plot_mutli_group_analysis.jpg', result@violin_plot, dpi = 300, width = 8, height = 4)
+ggsave('../img/violin_plot_mutli_group_analysis.jpg', result@violin_plot, dpi = 300, width = 8, height = 6)
 
 result@box_plot 
-ggsave('../img/box_plot_mutli_group_analysis.jpg', result@box_plot, dpi = 300, width = 8, height = 4)
+ggsave('../img/box_plot_mutli_group_analysis.jpg', result@box_plot, dpi = 300, width = 8, height = 6)
 
 result@statistic_tests 
 result@statistic_data 
@@ -128,10 +128,9 @@ results <- multi_var_groups_analysis(data = df,
                                     interval_col = "time",
                                     group_col = "group",
                                     parametric = TRUE,
-                                    paired = FALSE,
                                     adj = "bh",
                                     error = "sem",
-                                    tx_pos = 0.04)
+                                    tx_pos = 0.1)
 
 results@plot
 ggsave('../img/line_plot_multi_var_group_analysis.jpg', results@plot, dpi = 300, width = 8, height = 4)
@@ -167,10 +166,9 @@ results <- multi_var_groups_analysis(data = df,
                                      interval_col = "time",
                                      group_col = "group",
                                      parametric = FALSE,
-                                     paired = FALSE,
                                      adj = "bh",
                                      error = "sd",
-                                     tx_pos = 0.04)
+                                     tx_pos = 0.1)
 
 results@plot
 ggsave('../img/line_plot_two_var_group_analysis.jpg', results@plot, dpi = 300, width = 8, height = 4)

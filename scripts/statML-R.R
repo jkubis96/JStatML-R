@@ -144,7 +144,6 @@ avg_FC <- function(data) {
 #' @param grouping_column A string specifying the name of the column with grouping information.
 #' @param parametric Logical. If \code{TRUE}, parametric tests (ANOVA or Welch’s ANOVA) are used.
 #' If \code{FALSE}, the Kruskal-Wallis test is used.
-#' @param paired Logical. Indicates whether post-hoc comparisons should be paired (relevant for non-parametric tests).
 #' @param adjustment.method A string indicating the method for p-value adjustment (currently stored in the output
 #' but not applied during post-hoc tests; default is \code{"bonferroni"}).
 #'
@@ -183,7 +182,6 @@ test_multi_groups <- function(df,
                               value_column, 
                               grouping_column, 
                               parametric = TRUE, 
-                              paired = FALSE, 
                               adjustment.method = 'bonferroni') {
   
   setClass(
@@ -252,11 +250,9 @@ test_multi_groups <- function(df,
     )
     
     
-    if (paired == TRUE) {
-      posthoc_test = 'Wilcoxon Signed-Rank'
-    } else if (paired == FALSE) {
-      posthoc_test = 'Mann-Whitney U'
-    }
+   
+    posthoc_test = 'Mann-Whitney U'
+    
     
     statistic <- new("statistic", 
                      test ='Kruskal-Wallis', 
@@ -484,7 +480,7 @@ test_two_groups <- function(df, value_column, grouping_column, parametric = TRUE
 
 
 
-#' Two-group statistical analysis and plotting
+#' Two-group statistical analysis and Visualization
 #'
 #' This function performs statistical analysis and generates summary plots (violin, bar, and box plots)
 #' for comparisons between two groups. It supports both parametric (t-test) and non-parametric (Wilcoxon/Mann-Whitney) tests,
@@ -652,9 +648,6 @@ two_groups_analysis <- function(value_column, grouping_column, data, bar_queue =
     }
     
     
-    
-    
-    
     if (!is.na(y_break)) {
       
       bar_plot <- bar_plot + scale_y_continuous(breaks = seq(0, max(data[[value_column]], na.rm = TRUE), by = y_break))
@@ -681,18 +674,10 @@ two_groups_analysis <- function(value_column, grouping_column, data, bar_queue =
     
     
     
-    
-    
     if (!is.na(y_break)) {
       
       box_plot <- box_plot + scale_y_continuous(breaks = seq(0, max(data[[value_column]], na.rm = TRUE), by = y_break))
     }
-    
-    
-    
-    
-    
-  
       
       
       if (bars == 'sd') {
@@ -849,7 +834,6 @@ two_groups_analysis <- function(value_column, grouping_column, data, bar_queue =
 #' @param size Numeric. Font size for axis titles (default = 10).
 #' @param bar_size Numeric. Width of the bars and boxes (default = 0.5).
 #' @param parametric Logical. If TRUE, uses parametric tests (ANOVA + t-test); if FALSE, uses Kruskal-Wallis + Wilcoxon / Mann-Whitney test.
-#' @param paired Logical. If TRUE, assumes paired samples (only for parametric).
 #' @param include_ns Logical. If FALSE, excludes non-significant comparisons from plot.
 #' @param bars Character. Error bars type: `"sem"` (default) or `"sd"`.
 #' @param bars_size Numeric. Thickness of error bars (not currently used).
@@ -871,7 +855,7 @@ two_groups_analysis <- function(value_column, grouping_column, data, bar_queue =
 #' }
 #'
 #' @details
-#' This function is designed for exploratory data analysis involving multiple groups. It automatically handles appropriate statistical tests based on the `parametric` and `paired` flags, formats plots, and annotates p-values with asterisks.
+#' This function is designed for exploratory data analysis involving multiple groups. It automatically handles appropriate statistical tests based on the `parametric` flags, formats plots, and annotates p-values with asterisks.
 #'
 #' If only 2 groups are detected, an error is returned recommending the use of `two_groups_analysis()`.
 #'
@@ -907,7 +891,6 @@ multi_groups_analysis <- function(value_column,
                                   size = 10, 
                                   bar_size = 0.5, 
                                   parametric = FALSE, 
-                                  paired = FALSE, 
                                   include_ns = FALSE, 
                                   bars = 'sem', 
                                   bars_size = 1, 
@@ -948,7 +931,7 @@ multi_groups_analysis <- function(value_column,
 
 
 
-    results = test_multi_groups(data, value_column, grouping_column, parametric, paired, adjustment.method)
+    results = test_multi_groups(data, value_column, grouping_column, parametric, adjustment.method)
 
 
     results_tmp <- as.data.frame(results@posthoc_data)
@@ -1317,19 +1300,25 @@ multi_groups_analysis <- function(value_column,
 
 
 
-#' Multi-variable Groups Analysis with Statistical Tests and Plotting
+#' Two-way Factorial Analysis with Simple Main Effects and Visualization
 #'
-#' This function performs a statistical analysis (ANOVA or non-parametric alternatives) 
-#' on a given dataset grouped by specified variables, runs post-hoc tests for each interval,
-#' adjusts p-values, and generates a ggplot2 plot showing means with error bars and significance labels.
-#' It also calculates average fold changes between groups.
+#' Two-way Factorial Analysis with Simple Main Effects and Visualization
 #'
+#' @description
+#' This function performs a comprehensive two-way statistical analysis (e.g., Two-Way ANOVA or non-parametric ART-ANOVA) 
+#' to evaluate the effects of a primary grouping variable and a secondary factor (such as time or condition) 
+#' on a numeric response variable. Following the main test, it conducts simple main effects analysis by running 
+#' separate omnibus tests across the groups for each specific interval. Depending on the `parametric` parameter, 
+#' it uses either One-Way ANOVA or t-test for parametric data, or Kruskal-Wallis or Mann-Whitney U tests for 
+#' non-parametric data. The p-values from these interval-specific omnibus tests are then adjusted for multiple 
+#' comparisons across the tested intervals. The function outputs a publication-ready ggplot2 chart displaying 
+#' group means, error bars, and the adjusted significance labels for each interval.
+#' 
 #' @param data A data.frame containing the dataset.
 #' @param stat_col A string specifying the name of the column with the response variable (numeric).
 #' @param interval_col A string specifying the name of the column representing intervals or time points (factor or character).
 #' @param group_col A string specifying the name of the grouping variable column (factor or character).
 #' @param parametric Logical; if TRUE, parametric tests (ANOVA, t-test) are used, otherwise non-parametric tests (ART-ANOVA, Wilcoxon/Kruskal-Wallis) are applied. Default is TRUE.
-#' @param paired Logical; whether to perform paired tests (currently not implemented in detail). Default is FALSE.
 #' @param adj Character or NA; method for p-value adjustment in post-hoc tests ("bf" for Bonferroni, "bh" for Benjamini-Hochberg, or NA for none). Default is NA.
 #' @param error Character; type of error bars to show on the plot: 'sem' (standard error of mean) or 'sd' (standard deviation). Default is 'sem'.
 #' @param tx_pos Numeric; position adjustment factor for placing significance text above error bars. Default is 0.02.
@@ -1368,7 +1357,6 @@ multi_var_groups_analysis <- function(data,
                                       interval_col, 
                                       group_col,
                                       parametric = TRUE,
-                                      paired = FALSE,
                                       adj = NA,
                                       error = 'sem',
                                       tx_pos = 0.02
@@ -1489,7 +1477,7 @@ multi_var_groups_analysis <- function(data,
   # intervals
   
     
-    run_test_for_interval <- function(data_slice, interval_value, parametric, adj, paired) {
+    run_test_for_interval <- function(data_slice, interval_value, parametric, adj) {
       n_groups <- data_slice %>% pull(!!sym(group_col)) %>% unique() %>% length()
       
       test_type <- NA
@@ -1502,26 +1490,15 @@ multi_var_groups_analysis <- function(data,
       if (parametric) {
         if (n_groups == 2) {
           test_result <- tryCatch({
-            if (paired) {
-              
-              # paired data
-              x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
-              y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
-              
-              if (length(x) != length(y)) stop("Lengths of x and y must be equal for a paired test.")
-              
-              t.test(x, y, alternative = "two.sided", paired = TRUE)
-              
-            } else {
-              
-              x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
-              y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
-              
-              t.test(x, y, alternative = "two.sided", paired = FALSE, var.equal = TRUE)
-            }
+            
+            x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
+            y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
+            t.test(x, y, alternative = "two.sided", paired = FALSE, var.equal = TRUE)
+          
           }, error = function(e) return(NULL))
           
-          test_type <- if (paired) "Paired t-test" else "t-test"
+          test_type <- "t-test"
+          
           if (!is.null(test_result)) {
             test_stat <- test_result$statistic
             p_value <- test_result$p.value
@@ -1550,23 +1527,14 @@ multi_var_groups_analysis <- function(data,
       } else {
         if (n_groups == 2) {
           test_result <- tryCatch({
-            if (paired) {
-              x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
-              y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
-              
-              if (length(x) != length(y)) stop("Lengths of x and y must be equal for a paired test.")
-              
-              wilcox.test(x, y, alternative = "two.sided", paired = TRUE)
-            } else {
-              
-              x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
-              y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
-              
-              wilcox.test(x, y, alternative = "two.sided", paired = FALSE)
-            }
+           
+            x <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[1]) %>% dplyr::pull(!!sym(stat_col))
+            y <- data_slice %>% dplyr::filter(!!sym(group_col) == group_vals[2]) %>% dplyr::pull(!!sym(stat_col))
+            wilcox.test(x, y, alternative = "two.sided", paired = FALSE)
+            
           }, error = function(e) return(NULL))
           
-          test_type <- if (paired) "Wilcoxon signed-rank" else "Mann-Whitney U"
+          test_type <- "Mann-Whitney U"
           if (!is.null(test_result)) {
             test_stat <- test_result$statistic
             p_value <- test_result$p.value
@@ -1606,7 +1574,7 @@ multi_var_groups_analysis <- function(data,
   
   result_df <- data %>%
     group_split(!!sym(interval_col)) %>%
-    map_dfr(~ run_test_for_interval(.x, unique(.x[[interval_col]]), parametric = parametric, adj = adj, paired = paired))
+    map_dfr(~ run_test_for_interval(.x, unique(.x[[interval_col]]), parametric = parametric, adj = adj))
   
   result_df$p_value_raw[is.nan(result_df$p_value_raw)] = 1
   
@@ -1688,7 +1656,7 @@ multi_var_groups_analysis <- function(data,
                                p_nam_1, ' p = ', p_value_1,
                               ';  ',p_nam_2, ' p = ', p_value_2,
                               ';  ',p_nam_3, ' p = ', p_value_3,'  |  ', 
-                              'post-hoc: ', result_df$test_type[1], '  |  ', 
+                              'simple-effects: ', result_df$test_type[1], '  |  ', 
                               'p.adj: ', result_df$p_adjust_method[1]), 
                hjust = 0,
                vjust = 0,  
@@ -1731,7 +1699,7 @@ multi_var_groups_analysis <- function(data,
                                p_nam_1, ' p = ', p_value_1,
                               ';  ',p_nam_2, ' p = ', p_value_2,
                               ';  ',p_nam_3, ' p = ', p_value_3,'  |  ', 
-                              'post-hoc: ', result_df$test_type[1], '  |  ', 
+                              'simple-effects: ', result_df$test_type[1], '  |  ', 
                               'p.adj: ', result_df$p_adjust_method[1]), 
                hjust = 0,
                vjust = 0,  

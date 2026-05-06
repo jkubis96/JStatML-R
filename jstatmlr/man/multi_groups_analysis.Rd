@@ -15,7 +15,6 @@ multi_groups_analysis(
   size = 10,
   bar_size = 0.5,
   parametric = FALSE,
-  paired = FALSE,
   include_ns = FALSE,
   bars = "sem",
   bars_size = 1,
@@ -46,8 +45,6 @@ multi_groups_analysis(
 \item{bar_size}{Numeric. Width of the bars and boxes (default = 0.5).}
 
 \item{parametric}{Logical. If TRUE, uses parametric tests (ANOVA + t-test); if FALSE, uses Kruskal-Wallis + Wilcoxon / Mann-Whitney test.}
-
-\item{paired}{Logical. If TRUE, assumes paired samples (only for parametric).}
 
 \item{include_ns}{Logical. If FALSE, excludes non-significant comparisons from plot.}
 
@@ -81,7 +78,7 @@ An S4 object of class `multi_groups_analysis` with the following slots:
 Performs statistical analysis for more than two groups, including parametric or non-parametric tests, post-hoc comparisons, and generates bar, box, and violin plots with error bars and significance annotations.
 }
 \details{
-This function is designed for exploratory data analysis involving multiple groups. It automatically handles appropriate statistical tests based on the `parametric` and `paired` flags, formats plots, and annotates p-values with asterisks.
+This function is designed for exploratory data analysis involving multiple groups. It automatically handles appropriate statistical tests based on the `parametric` flags, formats plots, and annotates p-values with asterisks.
 
 If only 2 groups are detected, an error is returned recommending the use of `two_groups_analysis()`.
 }

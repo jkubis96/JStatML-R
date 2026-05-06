@@ -2,7 +2,7 @@
 % Please edit documentation in R/statML-R.R
 \name{two_groups_analysis}
 \alias{two_groups_analysis}
-\title{Two-group statistical analysis and plotting}
+\title{Two-group statistical analysis and Visualization}
 \usage{
 two_groups_analysis(
   value_column,
